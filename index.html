@@ -11,7 +11,7 @@
         margin: 0;
         padding: 0;
         overflow: hidden;
-        background-color: #f0f0f0;
+        background-color: #041729;
       }
       #sceneContainer {
         width: 100vw;
@@ -28,12 +28,12 @@
       <a-scene>
         <!-- Load the OBJ and MTL model -->
          <a-assets>
-        <a-asset-item id="objModel" src="A-frame\Aframe 3D Graphic Scene.obj"></a-asset-item>
-        <a-asset-item id="mtlModel" src="A-frame\Aframe 3D Graphic Scene.mtl"></a-asset-item>
+        <a-asset-item id="objModel" src="A-frame/Aframe 3D Graphic Scene.obj"></a-asset-item>
+        <a-asset-item id="mtlModel" src="A-frame/Aframe 3D Graphic Scene.mtl"></a-asset-item>
 
         <!-- Textures -->
-        <img id="textureJPG" src="A-frame\iridescent1.jpg"/>
-        <img id="texturePNG" src="A-frame\marble2.png"/>
+        <img id="textureJPG" src="A-frame/iridescent1.jpg"/>
+        <img id="texturePNG" src="A-frame/marble2.png"/>
 
         </a-assets>
         <!-- The 3D model entity -->
@@ -42,16 +42,54 @@
           position="0 1 -3"
           rotation="0 180 0"
           scale="1 1 1"
+          material="color: #af4035; roughness: 0.5; metalness: 0.7"
         ></a-entity>
 
-        <!-- Add a camera and some lighting -->
-        <a-entity position="-150 150 2">
-          <a-camera></a-camera>
-        </a-entity>
+        
 
-        <a-light type="ambient" color="#FFF"></a-light>
-        <a-light type="point" intensity="1" position="2 4 -3"></a-light>
-      </a-scene>
+        <!-- Add a camera and some lighting -->
+        <a-entity id="cameraRig" position="-395 365 -55">
+            <a-entity 
+              camera 
+              look-controls>
+            </a-entity>
+          </a-entity>
+        </a-scene>
     </div>
+    
+    <script>
+        // Move speed
+        var moveSpeed = 5; // Change this to control how fast the camera moves
+  
+        // Keydown event listener to move camera
+        document.addEventListener('keydown', function(event) {
+          // Get the camera rig element
+          var rig = document.querySelector('#cameraRig');
+          var position = rig.getAttribute('position');
+  
+          // WASD controls for horizontal movement
+          switch (event.key) {
+            case 'w': // Move forward (Z axis)
+              rig.setAttribute('position', { x: position.x, y: position.y, z: position.z - moveSpeed });
+              break;
+            case 's': // Move backward (Z axis)
+              rig.setAttribute('position', { x: position.x, y: position.y, z: position.z + moveSpeed });
+              break;
+            case 'a': // Move left (X axis)
+              rig.setAttribute('position', { x: position.x - moveSpeed, y: position.y, z: position.z });
+              break;
+            case 'd': // Move right (X axis)
+              rig.setAttribute('position', { x: position.x + moveSpeed, y: position.y, z: position.z });
+              break;
+            case ' ': // Move up (Y axis) - spacebar
+              rig.setAttribute('position', { x: position.x, y: position.y + moveSpeed, z: position.z });
+              break;
+            case 'Shift': // Move down (Y axis) - shift
+              rig.setAttribute('position', { x: position.x, y: position.y - moveSpeed, z: position.z });
+              break;
+          }
+        });
+      </script>
+
   </body>
 </html>
